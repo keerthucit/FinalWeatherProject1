@@ -30,7 +30,7 @@
         location.reload();
         $.ajax({
             type: 'DELETE',
-            url: "http://weatherchange.azurewebsites.net/Find/Delete",
+            url: 'http://' + window.location.host + '/Find/Delete/',
             data: { city: city },
             dataType: "json",
             success: function (data) {
