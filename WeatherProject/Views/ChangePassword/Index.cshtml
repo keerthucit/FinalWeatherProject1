@@ -1,0 +1,79 @@
+﻿@model WeatherProject.Models.DB.register
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/Layout.cshtml";
+}
+@Html.ValidationMessage("ModelName")
+@ViewData["ErrorMessage"]
+@ViewBag.ErrorMessage
+<link href="~/Content/SignInCss.css" rel="stylesheet" />
+<script src="~/Scripts/SignInJS.js"></script>
+<script>
+    function ToJavaScriptDate(value) {
+        var pattern = /Date\(([^)]+)\)/;
+        var results = pattern.exec(value);
+        var dt = new Date(parseFloat(results[1]));
+        return (dt.getMonth() + 1) + "/" + dt.getDate() + "/" + dt.getFullYear();
+    }
+
+    function check_pass(e) {
+        if (document.getElementById('password').value != document.getElementById('ConfirmPassword').value) {
+            alert("Password do not match");
+            document.getElementById("password").value = "";
+            document.getElementById("ConfirmPassword").value = "";
+            document.getElementById('submit').disabled = true;
+        }
+        else {
+            e.preventDefault();
+            document.getElementById('submit').disabled = false;
+        }
+    };
+</script>
+
+<div class="headertwo">
+    <span id="h_one">User Settings</span>
+    <span id="h_two">
+        &nbsp;&nbsp;&nbsp;
+        <a href="/SignInCon/MyHome" style="text-decoration:none; color:#505050;">Home</a>
+    </span>
+</div>
+
+<div style="margin-left:13.5%;">
+    <span style="float:left;margin-left:13.5%;width:40%">
+        <a href="@Url.Action("Index","ChangePassword")"><input id="create_button" type="submit" value="User Settings"></a>
+        <a href="@Url.Action("EditFields","SignInCon")"><input id="create_button" type="submit" style="background-color:#F0F0F0;color:black;" value="Edit"></a>
+        <a href="@Url.Action("Favorites","Find")"><input id="create_button" type="submit" style="background-color:#F0F0F0;color:black;" value="Favourites"></a>
+    </span>
+    <span style="float:right;margin-right:13%;">
+        <a href="@Url.Action("SignIn","SignInCon")"><input id="create_button" type="submit" value="Logout"></a>
+    </span>
+</div>
+<div class="headertwo"><br /><br /><br /></div>
+@if (Session["LoggedEmail"] != null)
+{
+    <div class="signInContent">
+        <form role="form" method="post" action="/ChangePassword/Index">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Password, null, new { @class = "form-control", type = "password", })
+                <div>
+                    @Html.TextBox("Password", null, new { @class = "form-control", type = "password", id = "password", required = "required" })
+                    @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                Confirm Password
+                <div>
+                    @Html.TextBox("Password", null, new { @class = "form-control", type = "password", id = "ConfirmPassword", required = "required", onchange = ("check_pass()") })
+                </div>
+            </div>
+            <button id="submit_button" type="submit" name="submit" onclick="save()">Save Password</button>
+        </form>
+    </div>
+}
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>

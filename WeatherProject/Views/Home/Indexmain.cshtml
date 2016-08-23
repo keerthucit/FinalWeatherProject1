@@ -1,0 +1,474 @@
+﻿@{
+    ViewBag.Title = "Indexmain";
+    Layout = "~/Views/Shared/Layout.cshtml";
+}
+<link href="@Url.Content("~/Content/")HomeCss.css" rel="stylesheet" type="text/css">
+<style>
+    table {
+        border: 1px solid #d6d6d6;
+        border-collapse: collapse;
+        width: 90%;
+    }
+
+    body {
+        color: #505065;
+    }
+
+    td {
+        text-align: left;
+        padding: 8px;
+        color: #505065;
+        border: 1px solid white;
+        width: 190px;
+        font-size: 14px;
+    }
+
+    tr:nth-child(odd) {
+        background-color: #f9f9f9;
+    }
+
+    /*{
+        background-color: #4CAF50;
+        color: white;
+    }*/
+    h3 {
+        font-family: 'Oswald', sans-serif;
+        font-size: 24px;
+        line-height: 1.1;
+        color: #505065;
+    }
+
+    th {
+        /*border: none;*/
+        background-color: white;
+        border-style: hidden;
+        font-size: 22px;
+        text-align: left;
+    }
+
+    /*th #trwi0 {
+            align: left;
+            width: 20%;
+        }
+
+        th #trwi00 {
+            align: right;
+        }*/
+
+    div#chartContainer {
+        margin-top: 6%;
+    }
+</style>
+<script>
+    $(document).ready(function () {
+
+
+        function getParameterByName(name, url) {
+            if (!url) url = window.location.href;
+            name = name.replace(/[\[\]]/g, "\\$&");
+            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, " "));
+        }
+
+
+        var last_searched = getParameterByName('last_searched');
+
+        $("#link1").click(function (e) {
+
+            url = "/Home/Indexmain/";
+            if (last_searched != null) {
+                url = url+"?last_searched=" + last_searched
+            }
+
+
+
+            window.location.href = url;
+            e.preventDefault();
+            $("#link2").removeClass("active");
+            $(this).addClass("active");
+        });
+
+        $("#link2").click(function (e) {
+            url = "/Home/Index/";
+            if (last_searched != null) {
+                url = url + "?last_searched=" + last_searched
+            }
+            window.location.href = url;
+            e.preventDefault();
+            $(this).addClass("active");
+            $("#link1").removeClass("active");
+        });
+    });
+</script>
+
+
+
+<script>
+    function getParameterByName(name, url) {
+        if (!url) url = window.location.href;
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
+    var weatherData;
+    var city1;
+    $.getJSON("http://freegeoip.net/json/", function (data) {
+
+        var foo = getParameterByName('last_searched');
+
+        if (foo != null) {
+            city1 = $.trim(foo);
+        } else {
+            city1 = $.trim(data.city);
+        }
+
+        $.post('@Url.Action("getCurrWeather","Home")', { city_name: city1 }, function (response) {
+
+
+
+            //$.ajax({
+            //   url: 'http://api.openweathermap.org/data/2.5/weather?q=' + city1 + '&appid=7497d03b154049161982286a1c9f4667',
+            //   type: 'POST',
+            //   dataType: JSON.stringify(city1),
+            //   success: function (data) {
+
+
+            weatherData = response;
+            //alert("Main: " + weatherData.weather[0].main + "\n" +
+            //    "Description: " + weatherData.weather[0].description + "\n" +
+            //    "Temperature: " + weatherData.main.temp + "\n" +
+            //    "Pressure: " + weatherData.main.pressure + "\n" +
+            //    "Humidity: " + weatherData.main.humidity + "\n" +
+            //    "Min Temp: " + weatherData.main.temp_min + "\n" +
+            //    "Max Temp: " + weatherData.main.temp_max + "\n" +
+            //    "Wind Speed: " + weatherData.wind.speed + "\n" +
+            //    "Sunrise:" + weatherData.sys.sunrise + "\n" +
+            //    "Sunset:" + weatherData.sys.sunset + "\n" +
+            //    "Geocoords:" + weatherData.coord.lon + "," + weatherData.coord.lat);
+            //alert("Main: " + weatherData.main.temp)
+            var icon_code = response.weather[0].icon;
+            var icon = "http://openweathermap.org/img/w/" + icon_code + ".png";
+            var flag = "http://openweathermap.org/images/flags/" + (response.sys.country).toLowerCase() + ".png";
+            $("#flag").html('<img src=' + flag + '>');
+
+            $("#icon").html('<img src=' + icon + '>');
+            var D = parseFloat((weatherData.main.temp * (9 / 5)) + 32).toFixed(2);
+            var eachrow = "<th>" + weatherData.name + "," + weatherData.sys.country + "</th>";
+            $('#trwi0').append(eachrow);
+            var eachrow = "<th>" + weatherData.main.temp + "\n" + "°C" + "</th>";
+            $('#trwi00').append(eachrow);
+            var eachrow = "<td>" + weatherData.weather[0].description + "\n" + "</td>";
+            $('#trwi01').append(eachrow);
+            var eachrow = "<td>" + "moderate breeze" + "\n" + weatherData.wind.speed + "m/s" + "\n" + "west" + "\n" + weatherData.wind.deg + "</td>";
+            $('#trwi1').append(eachrow);
+            var eachrow = "<td>" + weatherData.weather[0].description + "</td>";
+            $('#trwi2').append(eachrow);
+            var eachrow = "<td>" + weatherData.main.pressure + "\n" + "hpa" + "</td>";
+            $('#trwi3').append(eachrow);
+            var eachrow = "<td>" + weatherData.main.humidity + "%" + "</td>";
+            $('#trwi4').append(eachrow);
+
+
+            var eachrow = "<td>" + weatherData.sys.sunrise + "</td>";
+            $('#trwi6').append(eachrow);
+            var eachrow = "<td>" + weatherData.sys.sunset + "</td>";
+            $('#trwi7').append(eachrow);
+            var eachrow = "<td>" + "<a id='geo' href=http://openweathermap.org/weathermap>" + "[ " + weatherData.coord.lon + "," + weatherData.coord.lat + "] " + "</a>" + "</td>";
+            $('#trwi8').append(eachrow);
+
+        });
+
+    });
+
+    //$(document).ready(function () {
+    //    $("input:radio[name=temp_unit]").change(function () {
+    //        if ($(this).attr("value") == "celcius") {
+    //            tempInCelcius = parseFloat(weatherData.main.temp).toFixed(2);
+    //            $("#trwi00").html("<th>" + tempInCelcius + "&deg;C</th>")
+    //        }
+    //        else {
+    //            tempInCelcius = parseFloat((weatherData.main.temp * (9 / 5)) + 32).toFixed(2);
+    //            $("#trwi00").html("<th>" + tempInCelcius + "&deg;F</th>")
+    //        }
+    //    });
+
+
+    //});
+
+
+</script>
+
+<script language="JavaScript">
+
+    var tempInCelcius = -1;
+    var tempunits = "metric";
+    var unit = "C";
+    $(document).ready(function () {
+        var weatherData1;
+        var cityD;
+        $.getJSON("http://freegeoip.net/json/", function (data) {
+            cityD = $.trim(data.city);
+
+             $(document).ready(function () {
+                    GetWeatherData();
+
+                    $("input:radio[name=temp_unit]").change(function () {
+                        for (i = 0; i <= 10; i++) {
+                            $(".we" + i).empty();
+                            $(".det" + i).empty();
+                        }
+
+                        if ($(this).attr("value") == "celcius") {
+                            tempInCelcius = parseFloat(weatherData.main.temp).toFixed(2);
+                            $("#trwi00").html("<th>" + tempInCelcius + "&deg;C</th>")
+                            tempunits = "metric";
+                            unit="C"
+
+                            //alert(tempunits);
+                        }
+                        else {
+                            tempInCelcius = parseFloat((weatherData.main.temp * (9 / 5)) + 32).toFixed(2);
+                            $("#trwi00").html("<th>" + tempInCelcius + "&deg;F</th>")
+                            tempunits = "imperial";
+                            unit = "F"
+                            // alert(tempunits);
+                        }
+                        GetWeatherData();
+
+                    });
+                });
+                function GetWeatherData() {
+                    $.post('@Url.Action("getCurrWeatherD", "Forecast")', { city_name: cityD, temp_units: tempunits }, function (response) {
+                        weatherData1 = response;
+                        for (i = 0; i <= 10; i++)
+                        {
+                            var weather = weatherData1.list[i].weather[0].icon;
+                            var weath_url = "http://openweathermap.org/img/w/" + weather + ".png";
+
+                            $(".we"+i).html('<img src=' + weath_url + '>');
+                            var show_tab = "<td  style='font-size: 10px; margin:0; padding:0;'>" + weatherData1.list[i].wind.speed +"m/s" +"\n" + weatherData1.list[i].main.pressure +"hpa"+ "</td>";
+                            $(".det"+i).append(show_tab);
+                        }
+                var chart = {
+                    zoomType: 'xy'
+                };
+                var subtitle = {
+                    text: ''
+                };
+
+                var title = {
+                    text: 'Next hours'
+
+                };
+                var xAxis = {
+                    categories: ['17.30', '20.30', '23.30', '02.30', '05.30', '08.30', '11.30', '14.30', '17.30', '20.30', '23.30', '02.30'],
+                    crosshair: true,
+                    enabled: false
+                };
+                var yAxis = [{ // Primary yAxis
+                    labels: {
+                        format: '{value}\°' + unit,
+
+                        style: {
+                            color: Highcharts.getOptions().colors[2]
+                        }
+                    },
+                    title: {
+                        text: 'Temperature',
+
+                        style: {
+                            color: Highcharts.getOptions().colors[2]
+                        }
+                    },
+                    opposite: true
+                }, {
+                }];
+                var tooltip = {
+                    shared: true
+                };
+                var legend = {
+                    layout: 'vertical',
+                    align: 'left',
+                    x: 300,
+                    verticalAlign: 'top',
+                    y: 80,
+                    floating: true,
+                    //backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
+                };
+                var series = [{
+                    name: 'Precipitation',
+                    type: 'column',
+                    yAxis: 1,
+                    data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+
+
+                },
+                 {
+                     name: 'Temperature',
+                     type: 'spline',
+                     data: [weatherData1.list[0].main.temp, weatherData1.list[1].main.temp, weatherData1.list[2].main.temp, weatherData1.list[3].main.temp, weatherData1.list[4].main.temp, weatherData1.list[5].main.temp, weatherData1.list[6].main.temp, weatherData1.list[7].main.temp, weatherData1.list[8].main.temp, weatherData1.list[9].main.temp, weatherData1.list[10].main.temp, weatherData1.list[11].main.temp],
+                     //data: [list[0].weatherData.main.temp0, list[1].weatherData.main.temp, list[2].weatherData.main.temp, list[3].weatherData.main.temp, list[4].weatherData.main.temp, list[5].weatherData.main.temp, list[6].weatherData.main.temp],
+                     tooltip: {
+                         //valueSuffix: '\xB0C'
+                     }
+                 }
+                ];
+
+                var json = {};
+                json.chart = chart;
+                json.title = title;
+                json.subtitle = subtitle;
+                json.xAxis = xAxis;
+                json.yAxis = yAxis;
+                json.tooltip = tooltip;
+                json.legend = legend;
+                json.series = series;
+                $('#container').highcharts(json);
+
+                });
+            }
+        });
+    });
+</script>
+
+
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="http://code.highcharts.com/highcharts.js">
+
+</script>
+
+<body>
+    <h3 style="color:#505065; font-family:'Roboto',sans-serif;font-size:20px;margin-left:14%;">
+        Weather in your city
+    </h3><hr>
+    <br />
+    <br />
+    <section>
+        @*<div class="row" >
+            <div style="width:30%;float:left;margin-bottom:10%">
+
+
+                <table id="tabledata" cellspacing="0" cellpadding="0">
+
+                    <tbody id="tbody">
+
+                        <tr><th id="trwi0"> </th></tr>
+                        <tr style="padding:0px !important; margin:0px !important;">
+                            <td id="im" width="2%;" style="padding:0px !important; margin:0px !important;">
+
+                                <i id="icon"></i>
+
+                            <th id="trwi00" style="padding:0px !important; margin:0px !important;"></th>
+                        </tr>
+                        <tr><td id="trwi01" width="100%;" style="background-color:white;padding:0px 0px 8px 0px !important; "></td></tr>
+                        <tr>
+                            <td>get at @DateTime.Now</td>
+                        </tr>
+
+                        <tr id="trwi1" style="background-color: #f9f9f9;border-bottom:thin;border-left:thin;border-top:thin"><td>Wind</td></tr>
+                        <tr id="trwi2" style="background-color: white"><td>Cloudiness</td></tr>
+                        <tr id="trwi3" style="background-color: #f9f9f9"><td>Pressure</td></tr>
+                        <tr id="trwi4" style="background-color: white"><td>Humidity</td></tr>
+
+                        <tr id="trwi6" style="background-color: #f9f9f9"><td>Sunrise</td></tr>
+                        <tr id="trwi7" style="background-color: white"><td>Sunset</td></tr>
+                        <tr id="trwi8" style="background-color: #f9f9f9"><td>Geocoords</td></tr>
+
+
+                    </tbody>
+                </table>
+
+            </div>
+            <div style="width:70%;float:right">
+                <div style="margin-right:25%;margin-left:5%">
+                    <span style="margin-left:2px;">
+                        &nbsp;  &nbsp; &nbsp;  &nbsp;  <a href="@Url.Action("Indexmain", "Home")" style="text-decoration:none;color:gray">Main</a>
+                        &nbsp;  &nbsp; <a href="@Url.Action("Index", "Home")" style="text-decoration:none;color:gray"> Daily</a>
+                        <hr />
+                    </span>
+
+                </div>
+                <br />
+                <div id="container" style="width: 80%;height: 375px; ">*@
+        <div class="row" style="padding-bottom:10px">
+            <div style="width:30%;float:left;margin-bottom:10%">
+
+
+                <table id="tabledata" cellspacing="0" cellpadding="0">
+
+                    <tbody id="tbody">
+
+                        <tr>
+                            <th id="trwi0"> </th>
+                            <th><i id="flag" style="width:30px;"></i></th>
+                        </tr>
+
+                        <tr style="padding:0px !important; margin:0px !important;">
+                            <td id="im" width="2%;" style="padding:0px !important; margin:0px !important;">
+
+                                <i id="icon"></i>
+
+                            <th id="trwi00" style="padding:0px !important; margin:0px !important;"></th>
+                        </tr>
+                        <tr><td id="trwi01" width="100%;" style="background-color:white;padding:0px 0px 8px 0px !important; "></td></tr>
+                        <tr>
+                            <td>get at @DateTime.Now.AddHours(5).AddMinutes(30)</td>
+                        </tr>
+
+                        <tr id="trwi1" style="background-color: #f9f9f9;border-bottom:thin;border-left:thin;border-top:thin"><td>Wind</td></tr>
+                        <tr id="trwi2" style="background-color: white"><td>Cloudiness</td></tr>
+                        <tr id="trwi3" style="background-color: #f9f9f9"><td>Pressure</td></tr>
+                        <tr id="trwi4" style="background-color: white"><td>Humidity</td></tr>
+
+                        <tr id="trwi6" style="background-color: #f9f9f9"><td>Sunrise</td></tr>
+                        <tr id="trwi7" style="background-color: white"><td>Sunset</td></tr>
+                        <tr id="trwi8" style="background-color: #f9f9f9"><td>Geocoords</td></tr>
+
+
+                    </tbody>
+                </table>
+
+            </div>
+            <div style="width:70%;float:right;">
+                <div style="margin-right:25%;margin-left:5%">
+                    <span style="margin-left:2px;">
+                        &nbsp;  &nbsp; &nbsp;  &nbsp;  <a id="link1">Main</a>
+                        &nbsp;  &nbsp; <a id="link2"> Daily</a>
+                        <hr />
+                    </span>
+
+                </div>
+
+                <div id="container" style="width: 100%;height: 300px;margin-top:0 ">
+
+                </div>
+
+                <div>
+                    <table>
+                        <tr style="max-width:80%">
+                            <td size="10px"><i class="we0"></i><i class="det0"></i></td>
+                            <td><i class="we1"></i><i class="det1"></i></td>
+                            <td><i class="we2"></i><i class="det2"></i></td>
+                            <td><i class="we3"></i><i class="det3"></i></td>
+                            <td><i class="we4"></i><i class="det4"></i></td>
+                            <td><i class="we5"></i><i class="det5"></i></td>
+                            <td><i class="we6"></i><i class="det6"></i></td>
+                            <td><i class="we7"></i><i class="det7"></i></td>
+                            <td><i class="we8"></i><i class="det8"></i></td>
+                            <td><i class="we9"></i><i class="det9"></i></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+</body>

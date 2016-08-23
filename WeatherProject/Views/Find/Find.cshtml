@@ -1,0 +1,137 @@
+﻿@model WeatherProject.Models.DB.register
+@{
+    ViewBag.Title = "Find";
+    Layout = "~/Views/Shared/Layout.cshtml";
+}
+<link href="~/Content/FindCss.css" rel="stylesheet" />
+<div class="headertwo"><span>Weather in your city</span></div>
+<section>
+    <div id="tfheader">
+        <form id="tfnewsearch" method="get" action="#">
+            <input type="text" id="tfq" class="tftextinput2" align="center" name="city" size="21" maxlength="120" value=" " autopostback="True">
+            <button id="newButton" type="submit" data-modal="modal" class="tfbutton2"><i class="fa fa-question-circle"></i> Search</button>
+        </form>
+        <div class="tfclear"></div>
+    </div>
+    <div id="data_fetch">
+        <button id="favButton" type="submit" class="fav_button">Add to Favorites</button>
+        <i id="icon"></i>
+        <p>
+            <a href="#" id="name"></a>
+            <a id="country" href="#"></a> &nbsp;
+            <i id="flag" style="width:20px;"></i>
+            <i id="description" style="color:#505050;"></i>
+        </p>
+
+        <p class="line2">
+            <i id="temperature"></i> temparature from
+            <i id="temp_min"></i> to
+            <i id="temp_max"></i>
+            , wind <i id="wind"></i>m/s, clouds <i id="cloud"></i>%,<i id="pressure"></i> hpa
+        </p>
+
+        <p class="line3">Geo Coordinates [<i id="long"></i>,<i id="lat"></i>]</p>
+
+    </div>
+
+    <div class="page_content">
+        <h3>Search engine is very flexible. How it works:</h3>
+        <ol class="content">
+            <li>
+                Put the city's name or its part and get the list of the most proper cities in the world. Example - <b>Lon</b> or
+                <b>Lond</b> or <b>London</b>. The more precise city name you put the more precise list you will get.
+            </li>
+
+            <li>
+                To make it more precise put the city's name or its part, comma, the name of the county or 2-letter country	code.You will get all proper cities in						chosen county. The order is important - the first is city name then comma then county. Example - <b>Lon, UK</b> or <b>Lon, GB</b> or <b>London,						GB</b> or <b>Lon, England</b>.
+            </li>
+        </ol>
+    </div>
+</section>
+<script>
+
+    function getParameterByName(name, url) {
+        if (!url) url = window.location.href;
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
+
+    var city_name;
+    $(document).ready(function () {
+        $('#data_fetch').hide();
+
+        var foo = getParameterByName('city');
+
+
+        if (foo != null && foo != "") {
+            city_name = $.trim(foo);
+            $('.tftextinput2').val(city_name);
+            $("#modal").trigger('click');
+        }
+        else {
+            $("#newButton").click(function () {
+                // e.preventDefault();
+                city_name = $.trim($('.tftextinput2').val());
+                $('#data_fetch').hide();
+                if (city_name == "" && city_name == null)
+                    return;
+            });
+        }
+        $("#name").click(function () {
+            window.location.href = '/Home/Indexmain/?last_searched=' + city_name;
+        });
+
+
+        $.post('@Url.Action("getCurrWeather","Find")', { city_name: city_name }, function (response) {
+            var icon_code = response.weather[0].icon;
+            var icon = "http://openweathermap.org/img/w/" + icon_code + ".png";
+            var flag = "http://openweathermap.org/images/flags/" + (response.sys.country).toLowerCase() + ".png";
+            $("#flag").html('<img src=' + flag + '>');
+            $("#icon").html('<img src=' + icon + '>');
+            $("#name").text(response.name);
+            $("#country").text(response.sys.country);
+            $("#description").text(response.weather[0].description);
+            $("#temperature").text(response.main.temp);
+            $("#temp_min").text(response.main.temp_min);
+            $("#temp_max").text(response.main.temp_max);
+            $("#wind").text(response.wind.speed);
+            $("#cloud").text(response.clouds.all);
+            $("#pressure").text(response.main.pressure);
+            $("#lat").text(response.coord.lat);
+            $("#long").text(response.coord.lon);
+            console.log(response);
+            $('#data_fetch').slideDown('slow');
+
+        });
+    });
+
+    $("#favButton").on("click", function (e) {
+        e.preventDefault();
+        var cityName = $("#name").text();
+        var countryCode = $("#country").text();
+
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("Favorites", "Find")',
+            data: { city_name: cityName, country_code: countryCode },
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                alert(data);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                if (jqXHR.status == 403) {
+                    alert("User not logged on");
+                }
+            }
+        });
+
+        @*$.post('@Url.Action("Favorites", "Find")', { city_name: cityName, country_code: countryCode }, function (response) {
+                alert(response);
+            });*@
+    });
+</script>

@@ -1,0 +1,135 @@
+﻿@model WeatherProject.Models.DB.register
+@{
+    ViewBag.Title = "SignIn";
+    Layout = "~/Views/Shared/Layout.cshtml";
+}
+<link href="~/Content/SignInCss.css" rel="stylesheet" />
+<script src="~/Scripts/SignInJS.js"></script>
+
+<script>
+    var val2;
+    $(function () {
+        var key = "SXGWLZPDOKFIVUHJYTQBNMACERxswgzldpkoifuvjhtybqmncare";
+        function encodeStr(uncoded) {
+            uncoded = uncoded.toUpperCase().replace(/^\s+|\s+$/g, "");
+            var coded = "";
+            var chr;
+            for (var i = uncoded.length - 1; i >= 0; i--) {
+                chr = uncoded.charCodeAt(i);
+                coded += (chr >= 65 && chr <= 90) ?
+                  key.charAt(chr - 65 + 26 * Math.floor(Math.random() * 2)) :
+                  String.fromCharCode(chr);
+            }
+            return encodeURIComponent(coded);
+        }
+
+        function decodeStr(coded) {
+            coded = decodeURIComponent(coded);
+            var uncoded = "";
+            var chr;
+            for (var i = coded.length - 1; i >= 0; i--) {
+                chr = coded.charAt(i);
+                uncoded += (chr >= "a" && chr <= "z" || chr >= "A" && chr <= "Z") ?
+                  String.fromCharCode(65 + key.indexOf(chr) % 26) :
+                  chr;
+            }
+            return uncoded;
+        }
+        $(document).ready(function () {
+        document.getElementById("remember_me").checked = false;
+        $('#remember_me').click(function () {
+
+            if ($('#remember_me').is(':checked'))
+            {
+                var val1 = encodeStr($('#pass').val());
+                 val2 = decodeStr(val1);
+                localStorage.email = $('#email').val();
+                localStorage.pass = val1;
+                localStorage.chkbx = $('#remember_me').val();
+            }
+            else
+            {
+                localStorage.email = '';
+                localStorage.pass = '';
+                localStorage.chkbx = '';
+            }
+        });
+
+        if (localStorage.chkbx && localStorage.chkbx != '')
+        {
+            val2 = decodeStr(localStorage.pass);
+            $('#remember_me').attr('checked', 'checked');
+            $('#email').val(localStorage.email);
+            $('#pass').val(val2);
+        }
+        else
+        {
+            $('#remember_me').removeAttr('checked');
+            $('#email').val('');
+            $('#pass').val('');
+        }
+
+        /*var app = angular.module('app', []);
+        app.factory('$remember_me', function () {
+            return function (name, values) {
+                var cookie = name + '=';
+                cookie += values + ';';
+                var date = new Date();
+                date.setDate(date.getDate() + 15);
+                cookie += 'expires=' + date.toString() + ';';
+                document.cookie = cookie;
+            }*/
+        });
+    });
+</script>
+
+<section>
+    <div class="headertwo">
+        <span id="h_one">Sign In</span>
+        <span id="h_two">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <a href=" /Home/Home" style="color: orange;">Home</a>&nbsp;
+            <span>/&nbsp; Sign In</span>
+        </span>
+    </div>
+
+    <div style="padding-left:3%;">
+        @if (TempData["Success"] != null)
+        {
+            <div class="alert_maing">
+                <div class="alert_green"><p> Alert</p></div>
+                <p class="alert alert-success" id="successMessage">@TempData["Success"]</p>
+            </div>
+        }
+        @if (TempData["Fail"] != null)
+            {
+            <div class="alert_mainr">
+                <div class="alert_red"> <p> Alert</p></div>
+                <p class="alert alert-fail" id="failMessage">@TempData["Fail"]</p>
+            </div>
+        }
+    </div>
+
+    <div class="signInContent">
+        <h3 id="new_header">Sign In To Your Account</h3>
+        <form role="form" method="post" action="/SignInCon/SignIn/">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                <span id="icon"><i class="fa fa-user" aria-hidden="true"></i></span>@Html.TextBox("Email", null, new { @class = "form-control", type = "email", id = "email" })
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                <span id="icon"><i class="fa fa-lock" aria-hidden="true"></i></span>@Html.TextBox("Password", null, new { @class = "form-control", type = "password", id = "pass" })
+                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+            </div>
+            <div class="checkbox">
+                <label><input type="checkbox" id="remember_me">Remember me</label>
+            </div>
+            <button id="submit_button" type="submit">Submit</button>
+        </form>
+        <p id="last_para"> Not registered? <a id="link" href="/registers/Create/">Create an Account.</a></p>
+        <p id="last_para" class="Show">Lost your password?? <a id="link" href="/forgotpasswordcon/forgotpassword/" class="Show">Click here to recover.</a>
+
+    </div>
+</section>

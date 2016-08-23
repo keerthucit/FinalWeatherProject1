@@ -1,0 +1,91 @@
+﻿@model WeatherProject.Models.DB.register
+@{
+    ViewBag.Title = "MyHome";
+    Layout = "~/Views/Shared/Layout.cshtml";
+}
+
+<link href="~/Content/SignInCss.css" rel="stylesheet" />
+<script src="~/Scripts/SignInJS.js"></script>
+<script>
+    function preventBack() {
+        window.history.forward();
+    }
+    setTimeout("preventBack()", 0);
+    window.onunload = function () { null };
+</script>
+<div class="headertwo">
+    <span id="h_one">My Home</span>
+    <span id="h_two">
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="/SignInCon/MyHome" style="text-decoration:none; color:#505050;">Home</a>
+    </span>
+</div>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert_maing">
+        <div class="alert_green"><p> Alert</p></div>
+        <p class="alert alert-success" id="successMessage">@TempData["Success"]</p>
+    </div>
+}
+@if (TempData["Fail"] != null)
+{
+    <div class="alert_mainr">
+        <div class="alert_red"> <p> Alert</p></div>
+        <p class="alert alert-fail" id="failMessage">@TempData["Fail"]</p>
+    </div>
+}
+@if (TempData["UST"] != null)
+            {
+    <div class="alert_mainr">
+        <div class="alert_red"> <p> Alert</p></div>
+        <p class="alert alert-fail" id="failMessage">@TempData["Fail"]</p>
+    </div>
+}
+@if (TempData["editComplete"] != null)
+            {
+    <div class="alert_maing">
+        <div class="alert_green"><p> Alert</p></div>
+        <p class="alert alert-success" id="successMessage">@TempData["editComplete"]</p>
+    </div>
+}
+<div style="margin-left:13.5%;">
+    <span style="float:left;width:50%">
+        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <a href="@Url.Action("Index","ChangePassword")"><input id="create_button" type="submit" style="background-color:#F0F0F0;color:black;" value="User Settings"></a>
+        <a href="@Url.Action("EditFields","SignInCon")"><input id="create_button" type="submit" style="background-color:#F0F0F0;color:black;" value="Edit"></a>
+        <a href="@Url.Action("Favorites","Find")"><input id="create_button" type="submit" style="background-color:#F0F0F0;color:black;" value="Favourites"></a>
+    </span>
+    <span style="float:right;margin-right:13%;">
+        <a href="@Url.Action("LogOut","SignInCon")"><input id="create_button" type="submit" value="Logout"></a>
+    </span>
+</div>
+
+
+
+<div class="headertwo"><br /><br /></div>
+
+
+@if (Session["LoggedEmail"] != null)
+{
+    <div class="signInContent">
+        <form role="form" method="get" action="/SignInCon/MyHome/">
+            <div class="form-group">
+                Username
+                <div class="col-md-10">
+                    <input readonly="readonly" style="background-color:#EEEEEE; cursor: no-drop;" value="@Session["LoggedUsername"].ToString()" />
+                </div>
+            </div>
+            <div class="form-group">
+                Email
+                <div class="col-md-10">
+                    <input readonly="readonly"  style="background-color:#EEEEEE; cursor: no-drop;" value="@Session["LoggedEmail"].ToString()" />
+                </div>
+            </div>
+        </form>
+
+    </div>
+}
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>

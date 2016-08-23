@@ -1,0 +1,153 @@
+﻿@model IEnumerable<WeatherProject.Models.DB.favourite>
+@{
+    ViewBag.Title = "Favorites";
+    Layout = "~/Views/Shared/Layout.cshtml";
+}
+
+<link href="~/Content/SignInCss.css" rel="stylesheet" />
+<script src="~/Content/FindJs.js"></script>
+<script>
+
+    $(document).ready(function () {
+        // Show hide popover
+        $(".dropdown").click(function () {
+            $(this).siblings().find('.dropdown-menu').slideUp(-300);
+            $(this).find(".dropdown-menu").slideToggle(-300);
+        });
+    });
+    function getParameterByName(name, url) {
+        if (!url) url = window.location.href;
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
+    var cityName;
+
+    function deleteFav(city) {
+        location.reload();
+        $.ajax({
+            type: 'DELETE',
+            url: "http://weatherchange.azurewebsites.net/Find/Delete",
+            data: { city: city },
+            dataType: "json",
+            success: function (data) {
+                alert(data)
+            }
+        });
+    }
+
+    $(document).ready(function () {
+
+        $(".favdat").on("click", function () {
+            event.stopPropagation();
+            var fid = $(this).attr('fid');
+            // alert(id);
+
+            $('.data_fetch').hide();
+            cityName = $(this).val();
+
+
+
+            $.post('@Url.Action("getCurrWeather","Find")', { city_name: cityName }, function (response) {
+                var icon_code = response.weather[0].icon;
+                var icon = "http://openweathermap.org/img/w/" + icon_code + ".png";
+                var flag = "http://openweathermap.org/images/flags/" + (response.sys.country).toLowerCase() + ".png";
+                $("." + fid + "flag").html('<img src=' + flag + '>');
+                $("." + fid + "icon").html('<img src=' + icon + '>');
+                $("." + fid + "name").text(response.name);
+                $("." + fid + "country").text(response.sys.country);
+                $("." + fid + "description").text(response.weather[0].description);
+                $("." + fid + "temperature").text(response.main.temp);
+                $("." + fid + "temp_min").text(response.main.temp_min);
+                $("." + fid + "temp_max").text(response.main.temp_max);
+                $("." + fid + "wind").text(response.wind.speed);
+                $("." + fid + "cloud").text(response.clouds.all);
+                $("." + fid + "pressure").text(response.main.pressure);
+                $("." + fid + "lat").text(response.coord.lat);
+                $("." + fid + "long").text(response.coord.lon);
+                console.log(response);
+                $("." + fid + "data_fetch").slideDown('slow');
+            });
+        });
+        $(".favdat").trigger("click");
+
+        $(".favdat").click(function () {
+            window.location.href = '/Home/Indexmain/?last_searched=' + cityName;
+        });
+
+    });
+</script>
+
+
+
+<div class="headertwo">
+    <span id="h_one">My Favourite</span>
+    <span id="h_two">
+        &nbsp;&nbsp;&nbsp;
+        <a href="/SignInCon/MyHome" style="text-decoration:none; color:#505050;">Home</a>
+    </span>
+</div>
+
+<div style="margin-left:13.5%;">
+
+    <span style="float:left;margin-left:13.5%;width:40%">
+        <a href="@Url.Action("Index","ChangePassword")"><input id="create_button" type="submit" style="background-color:#F0F0F0;color:black;" value="User Settings"></a>
+        <a href="@Url.Action("EditFields","SignInCon")"><input id="create_button" type="submit" style="background-color:#F0F0F0;color:black;" value="Edit"></a>
+        <a href="@Url.Action("Favorites","Find")"><input id="create_button" type="submit" value="Favourites"></a>
+    </span>
+    <span style="float:right;margin-right:13%;">
+        <a href="@Url.Action("LogOut","SignInCon")"><input id="create_button" type="submit" value="Logout"></a>
+    </span>
+</div>
+<br /><br /><br /><br /><br /><br />
+<div>
+
+    <table align="center">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td style="padding:10px">
+                    <button id="favdat" class="favdat" fid="@Html.DisplayFor(modelItem => item.fid)" value="@Html.DisplayFor(modelItem => item.CityName)"><a href="#" style="text-decoration:none;color:#D26C22">@Html.DisplayFor(modelItem => item.CityName)</a></button>
+                </td>
+                <td style="padding:10px;">
+                    <a onclick="deleteFav('@item.CityName')" id="deleteLnk" href="#">
+                        <input id="removeButton" type="submit" value="Remove">
+                    </a>
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="2">
+                    <div class="@Html.DisplayFor(modelItem => item.fid)data_fetch" style="display:none">
+                        <i class="@Html.DisplayFor(modelItem => item.fid)icon"></i>
+                        <p>
+                            <i class="@Html.DisplayFor(modelItem => item.fid)name"></i>
+                            <i class="@Html.DisplayFor(modelItem => item.fid)country"></i> &nbsp;
+                            <i class="@Html.DisplayFor(modelItem => item.fid)flag" style="width:20px;"></i>
+                            <i class="@Html.DisplayFor(modelItem => item.fid)description" style="color:#505050;"></i>
+                        </p>
+
+                        <p class="@Html.DisplayFor(modelItem => item.fid)line line2">
+                            Temparature is <i class="@Html.DisplayFor(modelItem => item.fid)temperature"></i>°C &nbsp; from
+                            <i class="@Html.DisplayFor(modelItem => item.fid)temp_min"></i>°C &nbsp; to
+                            <i class="@Html.DisplayFor(modelItem => item.fid)temp_max"></i>°C &nbsp;
+                            , wind <i class="@Html.DisplayFor(modelItem => item.fid)wind"></i>m/s, clouds
+                            <i class="@Html.DisplayFor(modelItem => item.fid)cloud"></i>%,
+                            <i class="@Html.DisplayFor(modelItem => item.fid)pressure"></i> hpa
+                        </p>
+
+                        <p class="@Html.DisplayFor(modelItem => item.fid)line line3">Geo Coordinates [<i class="@Html.DisplayFor(modelItem => item.fid)long"></i>,<i class="@Html.DisplayFor(modelItem => item.fid)lat"></i>]</p>
+
+                    </div>
+                </td>
+            </tr>
+
+
+        }
+
+    </table>
+
+</div>

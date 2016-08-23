@@ -1,0 +1,435 @@
+﻿@{
+    ViewBag.Title = "Homedaily";
+    Layout = "~/Views/Shared/Layout.cshtml";
+}
+<link href="@Url.Content("~/Content/")HomeCss.css" rel="stylesheet" type="text/css">
+<style>
+    table {
+        border: 1px solid #d6d6d6;
+        border-collapse: collapse;
+        width: 90%;
+    }
+
+    body {
+        color: #505065;
+    }
+
+    td {
+        text-align: left;
+        padding: 8px;
+        color: #505065;
+        border: 1px solid white;
+        width: 190px;
+        font-size: 14px;
+    }
+
+    tr:nth-child(odd) {
+        background-color: #f9f9f9;
+    }
+
+    /*{
+        background-color: #4CAF50;
+        color: white;
+    }*/
+    h3 {
+        font-family: 'Oswald', sans-serif;
+        font-size: 24px;
+        line-height: 1.1;
+        color: #505065;
+    }
+
+    th {
+        /*border: none;*/
+        background-color: white;
+        border-style: hidden;
+        font-size: 22px;
+        text-align: left;
+    }
+
+        th #trwi0 {
+            align: left;
+            width: 20%;
+        }
+
+        th #trwi00 {
+            align: right;
+        }
+
+    div#chartContainer {
+        margin-top: 6%;
+    }
+</style>
+
+<script type="text/javascript" src="@Url.Content("~/Content/")canvasjs.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#link1").click(function (e) {
+            e.preventDefault();
+            $("#link2").removeClass("active");
+            $(this).addClass("active");
+            window.location.href = "/Home/Home";
+        });
+    });
+    $(document).ready(function () {
+        $("#link2").click(function (e) {
+            e.preventDefault();
+            $(this).addClass("active");
+            $("#link1").removeClass("active");
+            window.location.href = "/Home/Homedaily";
+        });
+    });
+</script>
+
+<script>
+        var weatherData;
+    var city1;
+    $.getJSON("http://freegeoip.net/json/", function (data) {
+        city1 = $.trim(data.city);
+        $.post('@Url.Action("getCurrWeather","Home")', { city_name: city1 }, function (response) {
+
+
+
+            //$.ajax({
+            //   url: 'http://api.openweathermap.org/data/2.5/weather?q=' + city1 + '&appid=7497d03b154049161982286a1c9f4667',
+            //   type: 'POST',
+            //   dataType: JSON.stringify(city1),
+            //   success: function (data) {
+
+
+            weatherData = response;
+            //alert("Main: " + weatherData.weather[0].main + "\n" +
+            //    "Description: " + weatherData.weather[0].description + "\n" +
+            //    "Temperature: " + weatherData.main.temp + "\n" +
+            //    "Pressure: " + weatherData.main.pressure + "\n" +
+            //    "Humidity: " + weatherData.main.humidity + "\n" +
+            //    "Min Temp: " + weatherData.main.temp_min + "\n" +
+            //    "Max Temp: " + weatherData.main.temp_max + "\n" +
+            //    "Wind Speed: " + weatherData.wind.speed + "\n" +
+            //    "Sunrise:" + weatherData.sys.sunrise + "\n" +
+            //    "Sunset:" + weatherData.sys.sunset + "\n" +
+            //    "Geocoords:" + weatherData.coord.lon + "," + weatherData.coord.lat);
+            //alert("Main: " + weatherData.main.temp)
+            var icon_code = response.weather[0].icon;
+            var icon = "http://openweathermap.org/img/w/" + icon_code + ".png";
+            var flag = "http://openweathermap.org/images/flags/" + (response.sys.country).toLowerCase() + ".png";
+            $("#flag").html('<img src=' + flag + '>');
+
+            $("#icon").html('<img src=' + icon + '>');
+            var D = parseFloat((weatherData.main.temp * (9/5))+32).toFixed(2);
+            var eachrow = "<th>" + weatherData.name + "," + weatherData.sys.country + "</th>";
+            $('#trwi0').append(eachrow);
+            var eachrow = "<th>" + weatherData.main.temp + "\n" + "°C" + "</th>";
+            $('#trwi00').append(eachrow);
+            var eachrow = "<td>" + weatherData.weather[0].description + "\n" + "</td>";
+            $('#trwi01').append(eachrow);
+            var eachrow = "<td>" + "moderate breeze" + "\n" + weatherData.wind.speed + "m/s" + "\n" + "west" + "\n" + weatherData.wind.deg + "</td>";
+            $('#trwi1').append(eachrow);
+            var eachrow = "<td>" + weatherData.weather[0].description + "</td>";
+            $('#trwi2').append(eachrow);
+            var eachrow = "<td>" + weatherData.main.pressure + "\n" + "hpa" + "</td>";
+            $('#trwi3').append(eachrow);
+            var eachrow = "<td>" + weatherData.main.humidity + "%" + "</td>";
+            $('#trwi4').append(eachrow);
+
+
+            var eachrow = "<td>" + weatherData.sys.sunrise + "</td>";
+            $('#trwi6').append(eachrow);
+            var eachrow = "<td>" + weatherData.sys.sunset + "</td>";
+            $('#trwi7').append(eachrow);
+            var eachrow = "<td>" + "<a id='geo' href=http://openweathermap.org/weathermap>" + "[ " + weatherData.coord.lon + "," + weatherData.coord.lat + "] " + "</a>" + "</td>";
+            $('#trwi8').append(eachrow);
+
+        });
+
+    });
+
+    //$(document).ready(function () {
+    //    $("input:radio[name=temp_unit]").change(function () {
+    //        if ($(this).attr("value") == "celcius") {
+    //            tempInCelcius = parseFloat(weatherData.main.temp).toFixed(2);
+    //            $("#trwi00").html("<th>" + tempInCelcius + "&deg;C</th>")
+    //        }
+    //        else {
+    //            tempInCelcius = parseFloat((weatherData.main.temp * (9 / 5)) + 32).toFixed(2);
+    //            $("#trwi00").html("<th>" + tempInCelcius + "&deg;F</th>")
+    //        }
+    //    });
+
+
+    //});
+
+
+</script>
+
+<script language="JavaScript">
+
+    var tempInCelcius = -1;
+    var tempunits = "metric";
+    var unit = "C";
+    $(document).ready(function () {
+        function getParameterByName(name, url) {
+            if (!url) url = window.location.href;
+            name = name.replace(/[\[\]]/g, "\\$&");
+            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, " "));
+        }
+
+
+
+        var weatherData1;
+        var cityD;
+        $.getJSON("http://freegeoip.net/json/", function (data) {
+
+
+            var foo = getParameterByName('last_searched');
+
+            if (foo != null) {
+                cityD = $.trim(foo);
+            } else {
+                cityD = $.trim(data.city);
+            }
+            $(document).ready(function () {
+                GetWeatherData();
+
+                $("input:radio[name=temp_unit]").change(function () {
+
+                    if ($(this).attr("value") == "celcius") {
+                        tempInCelcius = parseFloat(weatherData.main.temp).toFixed(2);
+                        $("#trwi00").html("<th>" + tempInCelcius + "&deg;C</th>")
+                        tempunits = "metric";
+                        unit = "C"
+                        //alert(tempunits);
+                    }
+                    else {
+                        tempInCelcius = parseFloat((weatherData.main.temp * (9 / 5)) + 32).toFixed(2);
+                        $("#trwi00").html("<th>" + tempInCelcius + "&deg;F</th>")
+                        tempunits = "imperial";
+                        unit = "F"
+                        // alert(tempunits);
+                    }
+                    GetWeatherData();
+
+                });
+            });
+
+            function GetWeatherData() {
+                $.post('@Url.Action("getCurrWeatherD", "Forecast")', { city_name: cityD, temp_units: tempunits }, function (response) {
+                    weatherData1 = response;
+                    //alert(response.list[1].main.temp);
+                    var rain1 = weatherData1.list[10].rain
+                    var rain2 = weatherData1.list[11].rain
+                    var rain3 = weatherData1.list[12].rain
+                    var rain4 = weatherData1.list[13].rain
+                    var rain5 = weatherData1.list[14].rain
+                    var rain6 = weatherData1.list[15].rain
+                    var rain7 = weatherData1.list[17].rain
+                    var rain8 = weatherData1.list[18].rain
+
+
+
+                    var i = 0;
+                    $(weatherData1.list).each(function () {
+                        var dd = this.rain;
+                        if (dd) { console.log(dd._3h); } i++;  })
+                       var chart = {zoomType: 'xy' };
+                    var subtitle = {
+                        text: ''
+                    };
+                    var title = {
+                        text: 'Daily weather forecast'
+                    };
+                    var xAxis = {
+                        categories: ['@DateTime.Now.Day @DateTime.Now.ToString("MMM")', '@DateTime.Now.AddDays(1).Day  @DateTime.Now.AddDays(1).ToString("MMM")', '@DateTime.Now.AddDays(2).Day  @DateTime.Now.AddDays(2).ToString("MMM")', '@DateTime.Now.AddDays(3).Day  @DateTime.Now.AddDays(3).ToString("MMM")', '@DateTime.Now.AddDays(4).Day  @DateTime.Now.AddDays(4).ToString("MMM")', '@DateTime.Now.AddDays(5).Day  @DateTime.Now.AddDays(5).AddDays(6).ToString("MMM")', '@DateTime.Now.AddDays(6).Day  @DateTime.Now.ToString("MMM")', '@DateTime.Now.AddDays(7).Day  @DateTime.Now.AddDays(7).ToString("MMM")', '@DateTime.Now.AddDays(8).Day  @DateTime.Now.AddDays(8).ToString("MMM")', '@DateTime.Now.AddDays(9).Day  @DateTime.Now.AddDays(9).ToString("MMM")', '@DateTime.Now.AddDays(10).Day  @DateTime.Now.AddDays(10).ToString("MMM")','@DateTime.Now.AddDays(11).Day  @DateTime.Now.AddDays(11).ToString("MMM")', '@DateTime.Now.AddDays(12).Day  @DateTime.Now.AddDays(12).ToString("MMM")'],
+                        crosshair: true
+                    };
+                    var yAxis = [{ // Primary yAxis
+                        labels: {
+                            format: '{value}\°' + unit,
+                            style: {
+                                color: Highcharts.getOptions().colors[2]
+                            }
+                        },
+                        title: {
+                            text: 'Temperature',
+                            style: {
+                                color: Highcharts.getOptions().colors[2]
+                            }
+                        },
+                        opposite: true
+                    }, { // Secondary yAxis
+                        title: {
+                            text: 'Precipitation',
+                            style: {
+                                color: Highcharts.getOptions().colors[0]
+                            }
+                        },
+                        labels: {
+                            format: '{value} mm',
+                            style: {
+                                color: Highcharts.getOptions().colors[0]
+                            }
+                        }
+                    }
+                    //{ // Tertiary yAxis
+                        //gridLineWidth: 0,
+                        //title: {
+                        //    text: 'Sea-Level Pressure',
+                        //    style: {
+                        //        color: Highcharts.getOptions().colors[1]
+                        //    }
+                        //},
+                        //labels: {
+                        //    format: '{value} mb',
+                        //    style: {
+                        //        color: Highcharts.getOptions().colors[1]
+                        //    }
+                        //},
+                        //opposite: true
+                    ];
+                    var tooltip = {
+                        shared: true
+                    };
+                    var legend = {
+                        layout: 'vertical',
+                        align: 'left',
+                        x: 357,
+                        verticalAlign: 'top',
+                        y: 40,
+                        floating: true,
+                        backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
+                    };
+                    var series = [{
+                        name: 'Rain',
+                        type: 'column',
+                        yAxis: 1,
+                        data: [rain1['_3h'], rain2['_3h'], rain3['_3h'], rain4['_3h'], rain5['_3h'], rain6['_3h'], rain7['_3h'], rain8['_3h']],
+                        //data: [weatherData1.list[0].rain.__invalid_name__3h, weatherData1.list[1].rain.__invalid_name__3h, weatherData1.list[2].rain.__invalid_name__3h, weatherData1.list[3].rain.__invalid_name__3h, weatherData1.list[4].rain.__invalid_name__3h, weatherData1.list[5].rain.__invalid_name__3h, weatherData1.list[6].rain.__invalid_name__3h, weatherData1.list[7].rain.__invalid_name__3h, weatherData1.list[8].rain.__invalid_name__3h, weatherData1.list[9].rain.__invalid_name__3h, weatherData1.list[10].rain.__invalid_name__3h, weatherData1.list[11].rain.__invalid_name__3h],
+                        tooltip: {
+                            valueSuffix: 'mm'
+                        }
+
+                    }, {
+                        name: 'Temperature',
+                        type: 'spline',
+                        data: [weatherData1.list[0].main.temp, weatherData1.list[1].main.temp, weatherData1.list[2].main.temp, weatherData1.list[3].main.temp, weatherData1.list[4].main.temp, weatherData1.list[5].main.temp, weatherData1.list[6].main.temp, weatherData1.list[7].main.temp, weatherData1.list[8].main.temp, weatherData1.list[9].main.temp, weatherData1.list[10].main.temp],
+                        //data: [list[0].weatherData.main.temp0, list[1].weatherData.main.temp, list[2].weatherData.main.temp, list[3].weatherData.main.temp, list[4].weatherData.main.temp, list[5].weatherData.main.temp, list[6].weatherData.main.temp],
+                        tooltip: {
+                            //valueSuffix: '\xB0C'
+                        }
+
+                    },
+                      {
+                          name: 'Temperature Min',
+                          type: 'spline',
+                          data: [weatherData1.list[0].main.temp_min, weatherData1.list[1].main.temp_min, weatherData1.list[2].main.temp_min, weatherData1.list[3].main.temp_min, weatherData1.list[4].main.temp_min, weatherData1.list[5].main.temp_min, weatherData1.list[6].main.temp_min, weatherData1.list[7].main.temp_min, weatherData1.list[8].main.temp_min, weatherData1.list[9].main.temp_min, weatherData1.list[10].main.temp_min],
+                          //data: [list[0].weatherData.main.temp0, list[1].weatherData.main.temp, list[2].weatherData.main.temp, list[3].weatherData.main.temp, list[4].weatherData.main.temp, list[5].weatherData.main.temp, list[6].weatherData.main.temp],
+
+                      }
+                    ];
+                    var json = {};
+                    json.chart = chart;
+                    json.title = title;
+                    json.subtitle = subtitle;
+                    json.xAxis = xAxis;
+                    json.yAxis = yAxis;
+                    json.tooltip = tooltip;
+                    //json.legend = legend;
+                    json.series = series;
+                    $('#container').highcharts(json);
+                });
+            }
+        });
+    });
+</script>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="http://code.highcharts.com/highcharts.js"></script>
+<body>
+
+    <div>
+        <img id="img2" src="@Url.Content("~/Content/")image1.png">
+    </div>
+    <div id="tf1header" style="margin-top:1.5%">
+        <form id="tf1newsearch" method="get" action="@Url.Action("Find", "Find")">
+            <input type="text" id="tfq" class="tftextinput2" name="city" size="21" maxlength="120" placeholder="Your city name">
+            <button id="srchbuttn"><i class="fa fa-question-circle" aria-hidden="true"></i><b>Search</b></button>
+        </form>
+    </div>
+    <hr />
+    <h2 id="header2" align="center"><b>Current weather and forecasts in your city</b></h2>
+    <section>
+        <div class="row">
+            <div style="width:30%;float:left;">
+
+
+                <table id="tabledata" cellspacing="0" cellpadding="0">
+
+                    <tbody id="tbody">
+
+                        <tr>
+                            <th id="trwi0"> </th>
+                            <th><i id="flag" style="width:30px;"></i></th>
+                        </tr>
+
+                        <tr style="padding:0px !important; margin:0px !important;">
+                            <td id="im" width="2%;" style="padding:0px !important; margin:0px !important;">
+
+                                <i id="icon"></i>
+
+                            <th id="trwi00" style="padding:0px !important; margin:0px !important;"></th>
+                        </tr>
+                        <tr><td id="trwi01" width="100%;" style="background-color:white;padding:0px 0px 8px 0px !important; "></td></tr>
+                        <tr>
+                            <td>get at @DateTime.Now.AddHours(5).AddMinutes(30)</td>
+                        </tr>
+
+                        <tr id="trwi1" style="background-color: #f9f9f9;border-bottom:thin;border-left:thin;border-top:thin"><td>Wind</td></tr>
+                        <tr id="trwi2" style="background-color: white"><td>Cloudiness</td></tr>
+                        <tr id="trwi3" style="background-color: #f9f9f9"><td>Pressure</td></tr>
+                        <tr id="trwi4" style="background-color: white"><td>Humidity</td></tr>
+
+                        <tr id="trwi6" style="background-color: #f9f9f9"><td>Sunrise</td></tr>
+                        <tr id="trwi7" style="background-color: white"><td>Sunset</td></tr>
+                        <tr id="trwi8" style="background-color: #f9f9f9"><td>Geocoords</td></tr>
+
+
+                    </tbody>
+                </table>
+
+            </div>
+            <div style="width:70%;float:right">
+                <div style="margin-right:25%;margin-left:5%">
+                    <span id="menu" style="margin-left:2px;">
+                        &nbsp;  &nbsp; &nbsp;  &nbsp; <a id="link1">Main</a>
+                        &nbsp;  &nbsp; <a id="link2"> Daily</a>
+                        <hr />
+                    </span>
+
+                </div>
+                <br />
+                <div id="container" style="width: 100%;height: 375px; ">
+
+                </div>
+            </div>
+        </div>
+    </section>
+    <br />
+    <br />
+    <br />
+    <br />
+
+
+    <div class="row" style="float:right;margin-bottom:5%;margin-top:5%">
+        <center>
+            <p style="color: #999;text-align:center;    font-family: 'Roboto', sans-serif;font-size: 13px;line-height: 1.42857143;">
+                Get current weather, daily forecast for 16 days, and 3-hourly forecast 5 days for your city. Helpful stats, graphics, and this day in history charts are available for your reference. Interactive maps show precipitation, clouds, pressure, wind around your location.
+            </p>
+            <button style="background:#D26c22;color:white;-webkit-border-radius: 5px;border: none; -moz-border-radius:5px;padding:1%"><a style="color:white;text-decoration:none" href=" @Url.Action("Indexmain", "Home") "><b> More weather in your city</b></a></button>
+        </center>
+    </div>
+
+
+</body>

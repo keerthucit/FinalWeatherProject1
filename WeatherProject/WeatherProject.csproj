@@ -1,0 +1,341 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{9FAC3671-4FC2-4251-91A4-0168E21A7E78}</ProjectGuid>
+    <ProjectTypeGuids>{E3E379DF-F4C6-4180-9B81-6769533ABE47};{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>WeatherProject</RootNamespace>
+    <AssemblyName>WeatherProject</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Mvc.FixedDisplayModes, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.FixedDisplayModes.1.0.0\lib\net40\Microsoft.Web.Mvc.FixedDisplayModes.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.4.0.30506.0\lib\net40\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.30506.0\lib\net40\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.4.0.30506.0\lib\net40\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.4.0.30506.0\lib\net40\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.4.0.30506.0\lib\net40\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.2.0.30506.0\lib\net40\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.30506.0\lib\net40\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.30506.0\lib\net40\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.30506.0\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Controllers\ChangePasswordController.cs" />
+    <Compile Include="Controllers\FindController.cs" />
+    <Compile Include="Controllers\ForecastController.cs" />
+    <Compile Include="Controllers\ForgotPasswordConController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\registersController.cs" />
+    <Compile Include="Controllers\SignInConController.cs" />
+    <Compile Include="Model1\getForecast.cs" />
+    <Compile Include="Models\DB\favourite.cs">
+      <DependentUpon>WeatherData.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DB\register.cs">
+      <DependentUpon>WeatherData.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DB\WeatherData.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>WeatherData.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DB\WeatherData.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>WeatherData.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DB\WeatherData.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>WeatherData.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\fav.cs" />
+    <Compile Include="Models\getWeatherDat.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\WeatherModel.cs" />
+    <Compile Include="Model1\WeatherModelD.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Content Include="Content\canvasjs.min.js" />
+    <Content Include="Content\FavouritesCss.css" />
+    <Content Include="Content\FindCss.css" />
+    <Content Include="Content\font-awsome-4.6.3\css\font-awesome.css" />
+    <Content Include="Content\font-awsome-4.6.3\css\font-awesome.min.css" />
+    <Content Include="Content\font-awsome-4.6.3\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\HomeCss.css" />
+    <Content Include="Content\image1.png" />
+    <Content Include="Content\jquery.canvasjs.min.js" />
+    <Content Include="Content\Layout.css" />
+    <Content Include="Content\Logo.png" />
+    <Content Include="Content\pic.png" />
+    <Content Include="Content\SignInCss.css" />
+    <Content Include="Content\SignUpCss.css" />
+    <Content Include="Content\Sysweather.png" />
+    <Content Include="Global.asax" />
+    <EntityDeploy Include="Models\DB\WeatherData.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>WeatherData.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\DB\WeatherData.edmx.diagram">
+      <DependentUpon>WeatherData.edmx</DependentUpon>
+    </Content>
+    <None Include="Properties\PublishProfiles\sysweatherfore %282%29.pubxml" />
+    <None Include="Properties\PublishProfiles\sysweatherfore.pubxml" />
+    <None Include="Properties\PublishProfiles\WeatherChange.pubxml" />
+    <None Include="Scripts\jquery-3.1.0.intellisense.js" />
+    <Content Include="Models\DB\WeatherData.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>WeatherData.edmx</DependentUpon>
+      <LastGenOutput>WeatherData.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\DB\WeatherData.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>WeatherData.edmx</DependentUpon>
+      <LastGenOutput>WeatherData.cs</LastGenOutput>
+    </Content>
+    <Content Include="Scripts\javascript.js" />
+    <Content Include="Scripts\jquery-3.1.0.js" />
+    <Content Include="Scripts\jquery-3.1.0.min.js" />
+    <Content Include="Scripts\jquery-3.1.0.slim.js" />
+    <Content Include="Scripts\jquery-3.1.0.slim.min.js" />
+    <Content Include="Scripts\SignInJS.js" />
+    <Content Include="Web.config" />
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config" />
+    <Content Include="Scripts\jquery-3.1.0.slim.min.map" />
+    <Content Include="Scripts\jquery-3.1.0.min.map" />
+    <Content Include="Views\SignInCon\EditFields.cshtml" />
+    <Content Include="Views\SignInCon\MyHome.cshtml" />
+    <Content Include="Views\Find\Favorites.cshtml" />
+    <Content Include="Views\ChangePassword\Index.cshtml" />
+    <Content Include="Views\SignInCon\LogOut.cshtml" />
+    <Content Include="Views\Home\Contactus.cshtml" />
+    <None Include="Web.WeatherChange.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\Layout.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Home\Home.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\font-awsome-4.6.3\fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\font-awsome-4.6.3\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\font-awsome-4.6.3\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\font-awsome-4.6.3\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Content\font-awsome-4.6.3\fonts\FontAwesome.otf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\font-awsome-4.6.3\less\animated.less" />
+    <Content Include="Content\font-awsome-4.6.3\less\bordered-pulled.less" />
+    <Content Include="Content\font-awsome-4.6.3\less\core.less" />
+    <Content Include="Content\font-awsome-4.6.3\less\fixed-width.less" />
+    <Content Include="Content\font-awsome-4.6.3\less\font-awesome.less" />
+    <Content Include="Content\font-awsome-4.6.3\less\icons.less" />
+    <Content Include="Content\font-awsome-4.6.3\less\larger.less" />
+    <Content Include="Content\font-awsome-4.6.3\less\list.less" />
+    <Content Include="Content\font-awsome-4.6.3\less\mixins.less" />
+    <Content Include="Content\font-awsome-4.6.3\less\path.less" />
+    <Content Include="Content\font-awsome-4.6.3\less\rotated-flipped.less" />
+    <Content Include="Content\font-awsome-4.6.3\less\screen-reader.less" />
+    <Content Include="Content\font-awsome-4.6.3\less\stacked.less" />
+    <Content Include="Content\font-awsome-4.6.3\less\variables.less" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\font-awsome-4.6.3\scss\font-awesome.scss" />
+    <Content Include="Content\font-awsome-4.6.3\scss\_animated.scss" />
+    <Content Include="Content\font-awsome-4.6.3\scss\_bordered-pulled.scss" />
+    <Content Include="Content\font-awsome-4.6.3\scss\_core.scss" />
+    <Content Include="Content\font-awsome-4.6.3\scss\_fixed-width.scss" />
+    <Content Include="Content\font-awsome-4.6.3\scss\_icons.scss" />
+    <Content Include="Content\font-awsome-4.6.3\scss\_larger.scss" />
+    <Content Include="Content\font-awsome-4.6.3\scss\_list.scss" />
+    <Content Include="Content\font-awsome-4.6.3\scss\_mixins.scss" />
+    <Content Include="Content\font-awsome-4.6.3\scss\_path.scss" />
+    <Content Include="Content\font-awsome-4.6.3\scss\_rotated-flipped.scss" />
+    <Content Include="Content\font-awsome-4.6.3\scss\_screen-reader.scss" />
+    <Content Include="Content\font-awsome-4.6.3\scss\_stacked.scss" />
+    <Content Include="Content\font-awsome-4.6.3\scss\_variables.scss" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Home\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Home\Homedaily.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Home\Indexmain.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Find\Find.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\registers\Create.cshtml" />
+    <Content Include="Views\registers\Delete.cshtml" />
+    <Content Include="Views\registers\Details.cshtml" />
+    <Content Include="Views\registers\Edit.cshtml" />
+    <Content Include="Views\registers\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\ForgotPasswordCon\ForgotPassword.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\SignInCon\SignIn.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Signupcon\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>49228</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:49226/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

@@ -1,0 +1,37 @@
+﻿@model WeatherProject.Models.DB.register
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<div>
+    <h1>Signed In Successfully !!</h1>
+    <span>
+        <a href="@Url.Action("SignIn","SignInCon")"><input id="create_button" type="submit" value="Login"></a>
+    </span>
+</div>
+<style>
+    #create_button {
+        font-size: 16px;
+        background-color: #D26c22;
+        border: 1px solid #e5a900;
+        color: white;
+        font-weight: normal;
+        cursor: pointer;
+        min-width: 15%;
+        margin-left: 38%;
+        border-radius: 5px;
+        padding: 10px 0;
+        outline: none;
+    }
+
+    h1 {
+        margin-left: 33%;
+    }
+</style>

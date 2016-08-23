@@ -1,0 +1,370 @@
+﻿
+@import url(http://fonts.googleapis.com/css?family=Raleway);
+ 
+body{ 
+    margin: 0;   
+    min-height: 100%;
+    font-family: 'Roboto', sans-serif;
+    overflow-x:hidden;
+    }
+ 
+   .headertwo{	
+	
+	 width: 100%;
+	 padding: 1.3% 0 1.7% 0;
+	 margin-left: 0 !important;	    
+	 font-weight: normal;	 
+	 border-bottom: 1px solid #EEEEEE;
+	 margin-bottom: 8px;
+	}	
+   #h_one{
+      color:#505050;
+      margin-left: 13.5%;
+	  font-size: 22px;
+   }
+  #h_two{
+        color:#7f7f7f;
+	    margin-left: 53%;
+		font-size: 15px;
+       }
+
+ /**form starts here**/
+ input[type="tel"] {
+  border: 1px solid #ddd;
+  padding: 2px 4px;
+}
+input[type="tel"]:focus {
+  border: 1px solid #000;
+}
+ 
+.wrapup{
+ width: 40%;
+ height:750px;
+ margin:20px auto;
+ padding: 20px 20px 15px 20px;
+ font-family: 'Raleway', sans-serif;
+ border: 1px solid #c4c4c4;
+ border-radius: 2px 2px 0 0;
+ -webkit-box-shadow: 0px 2px 26px -2px rgba(196,196,196,1);
+ -moz-box-shadow: 0px 2px 26px -2px rgba(196,196,196,1);
+ box-shadow: 0px 2px 26px -2px rgba(196,196,196,1);
+}
+
+#new_header{
+ background-color: white;
+ color: #505050;
+ padding: 8px 50px 25px 50px;
+ font-size: 24px;
+ margin: 0 auto;
+ text-align:left;
+ border-bottom: 1px solid #EEEEEE;
+}
+
+#form_id{ 
+ margin:10px auto;
+ width: 80%;
+ padding: 1px; 
+ border-radius: 10px;  
+}
+#form_id label{
+ color: #464646;
+ text-shadow: 0 1px 0 #fff;
+ font-size: 12px;
+ font-weight: normal;
+}
+ 
+.sidebar {
+    float: right;    
+	display: inline-block;
+}
+#form_id input{
+    width: 100%;
+    margin-top: 5px;
+    padding: 4px;
+	font-size: 15px;
+	border:1px solid #CCCCCC; 
+	border-radius: 3px;
+	
+}
+#form_id input:active, #form_id input:focus{
+  border: 0.01px solid rgba(102,175,233,1);
+  -webkit-box-shadow: -1px 1px 10px -2px rgba(102,175,233,1) !important;
+  -moz-box-shadow: -1px 1px 10px -2px rgba(102,175,233,1) !important;
+  box-shadow: -1px 1px 10px -2px rgba(102,175,233,1) !important;
+
+}
+#pass {
+ width: 45%;
+ display: block;
+ float: left;
+ margin-bottom: 18px;
+}
+ 
+#create_button{
+ font-size: 16px;
+ background-color:#D26c22; 
+ border: 1px solid #e5a900; 
+ color: white;
+ font-weight: normal;
+ cursor: pointer;
+ width: 30% !important; 
+ border-radius: 5px;
+ outline:none;
+ margin: 5% 0 !important; 
+ padding-top: 10px;
+ padding-bottom: 10px;
+}
+ 
+#create_button:hover{
+ background: #C1631F; 
+ }
+#chckbx{
+margin-left: 0 !important;
+ width:4% !important; 
+}
+#last_line{    
+	margin-bottom:10%;		
+	font-size: 25px;
+}
+#link{
+  font-size: 15px;
+  color: orange;
+  text-decoration: none;
+}
+#link:hover{
+  text-decoration: underline;
+}
+
+
+/* Footer*/
+
+/*.container{
+background-color: #353432;
+color: #D26C22;
+margin-top: 3%;
+padding: 2.5% 11%;
+clear: both;
+overflow: hidden;
+}
+
+.footer_list{
+position: relative;
+display: block;
+float: left;
+width: 33%;
+height: 400px;
+}
+.footer_list ul{
+list-style-type: none;
+}
+
+.footer_list ul h2{
+font-size: 25px;
+font-stretch: condensed;
+border-bottom: 1px solid #4E4D4A;
+padding-bottom: 3px;
+}
+.footer_list hr{  
+  border: 0px;
+  border-bottom: 0.2px solid #D26C22;
+  margin: 1% 0;
+}
+.sub_footer_list li{
+list-style-position: outside;
+list-style-type: disc;
+color: white;
+}
+.sub_footer_list li a{
+text-decoration: none;
+color:#D26C22;
+font-size: 15px;
+}
+.sub_footer_list li a:hover{
+      text-decoration: underline;
+    }
+#boxed {
+   font-stretch: normal;
+   background-color: #D9EDF7;
+   font-size: 15px;
+   margin: 1.8% 0;
+   padding: 0.5% 3.5%;
+   color: #31708F;
+   border-radius: 5px 5px 5px 5px;
+}
+#boxed a{
+   text-decoration: none;
+   font-weight: bold;
+   font-size: 15px;
+   color: #245269;
+}
+
+#boxed a:hover{
+   text-decoration: underline;
+}
+.social span{ 
+  display: block;
+  font-size: 15px;
+  color: white;
+  margin-bottom: 2%;
+}
+#twitter { 
+  margin: 10% 1%;
+  padding: 1.5% 2.5%;  
+  border-radius: 50%;
+  background: white; 
+  font-size: 25px;
+  height:50px;
+  width: 50px;
+  color: grey;
+  text-decoration: none;
+}
+#facebook{
+     padding: 1.5% 3.5%; 
+     border-radius: 50%;
+	 background: white; 
+     font-size: 25px;
+	 color: grey;
+	 text-decoration: none;
+}
+#github { 
+  margin: 10% 1%;
+  padding: 1.5% 2.5%;  
+  border-radius: 50%;
+  background: white; 
+  font-size: 25px;
+  height:50px;
+  width: 50px;
+  color: grey;
+  text-decoration: none;
+}
+#twitter:hover{
+   color:white;
+   background: #1DCAFF ;      
+}
+#facebook:hover{
+   color:white;
+   background: #3B5998 ;      
+}
+#github:hover{
+   color:white;
+   background: #657E8C ;      
+}
+.copyright{
+ margin-left: 2.3%;
+ float: left;
+ color: white; 
+ font-size: 15px;
+ border-top: 1px solid #4E4D4A;
+ padding-top: 20px;
+ width: 97%;
+ }
+
+.copyright a{
+ text-decoration: none;
+ color: #D26C22;
+}
+.copyright a:hover{
+ text-decoration: underline;
+}*/
+
+/* For hiding elements on reducing screen size*/
+
+/*@media only screen and (max-width: 768px){
+
+.firstheader{
+		display: none;
+		}
+#nav_bar ul li a{
+	 display: none;
+	 }
+ #nav_bar img{	
+	min-width: 45%;
+	float: left;
+	padding:3% 0 4% 0;
+	margin:2% 1% 0 2%;
+	position: relative;
+	} 
+.navbar-fixed {
+	 position: relative;
+	}
+.wrapup{
+ width: 85%;
+ height:680px;
+ margin:15px auto;
+ padding: 25px 15px 20px 20px;
+ font-family: 'Raleway', sans-serif;
+ border: 1px solid #c4c4c4;
+ border-radius: 2px 2px 0 0;
+ -webkit-box-shadow: 0px 2px 26px -2px rgba(196,196,196,1);
+ -moz-box-shadow: 0px 2px 26px -2px rgba(196,196,196,1);
+ box-shadow: 0px 2px 26px -2px rgba(196,196,196,1);
+}
+ #h_one{	 
+      margin-left: 3%;
+	  font-size: 20px;
+        }
+ #h_two{
+		display: none;
+       }
+.headertwo{	
+	 width: 100%;
+	 padding: 5% 0 4% 0;	 
+	 margin-bottom: 9%;
+	 
+	}	
+#pass {
+ width: 100%; 
+ margin-bottom: 18px;
+}
+
+ .container{
+		padding: 2.5% 0;
+		margin-left: 0;
+        }
+ .footer_list{
+		position: auto;
+		display: block;
+		float: left;
+		width: 100%;
+		height: auto;
+		margin-left: 0;
+       }
+.footer_list ul{
+	   padding-left: 3%;
+     }
+.sub_footer_list li{
+		list-style-position: inside;
+		}
+#twitter { 
+  margin: 10% 1%;
+  padding: 0.3% 1.5%;  
+  border-radius: 50%;
+  background: white; 
+  font-size: 25px;
+  height:30px;
+  width: 30px;
+  color: gray;
+  text-decoration: none;
+}
+#facebook{
+     padding: 0.3% 2.1%; 
+     border-radius: 50%;
+	 background: white; 
+     font-size: 25px;
+	 color: gray;
+	 text-decoration: none;
+}
+#github { 
+  margin: 10% 1%;
+  padding: 0.3% 1.5%;  
+  border-radius: 50%;
+  background: white; 
+  font-size: 25px;
+  height:50px;
+  width: 50px;
+  color: gray;
+  text-decoration: none;
+}
+
+
+}*/

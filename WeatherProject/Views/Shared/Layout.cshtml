@@ -1,0 +1,252 @@
+﻿@{
+    ViewBag.Title = "Layout";
+}
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="Generator" content="EditPlus®">
+    <meta name="Author" content="">
+    <meta name="Keywords" content="">
+    <meta name="Description" content="">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    <meta http-equiv=" x-ua-compatible" content="IE=edge,chrome=1">
+    <meta name="HandheldFriendly" content="true">
+    <title>OpenWeatherMap current weather and forecast</title>
+    <link rel="stylesheet" href="@Url.Content("~/Content/")font-awsome-4.6.3/css/font-awesome.min.css">
+    <link href="~/Content/Layout.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-3.1.0.js"></script>
+
+    <script language="JavaScript" type="text/javascript">
+
+        jQuery(document).ready(function() {
+            var offset = 100;
+            var duration = 10;
+            jQuery(window).scroll(function() {
+                if (jQuery(this).scrollTop() > offset) {
+                    jQuery('.back-to-top').fadeIn(duration);
+                }
+                else {
+                    jQuery('.back-to-top').fadeOut(duration);
+                }
+            });
+            jQuery('.back-to-top').click(function(event) {
+                event.preventDefault();
+                jQuery('html, body').animate({scrollTop: 0}, duration);
+                return false;
+            })
+        });
+    </script>
+
+    <script language="JavaScript" type="text/javascript">
+        $(document).ready(function() {
+            $(window).scroll(function() {
+                console.log($(window).scrollTop())
+                if ($(window).scrollTop() > 20) {
+                    $('#nav_bar').addClass('navbar-fixed');
+                }
+                if ($(window).scrollTop() < 21) {
+                    $('#nav_bar').removeClass('navbar-fixed');
+                }
+            });
+        });
+    </script>
+
+    <script language="JavaScript" type="text/javascript" src="@Url.Content("http://code.jquery.com/jquery.min.js")"></script>
+    <script language="JavaScript" type="text/javascript">
+        var tempInCelcius;
+        $(document).ready(function(){
+            // Show hide popover
+            $(".dropdown").click(function(){
+                $(this).siblings().find('.dropdown-menu').slideUp(-300);
+                $(this).find(".dropdown-menu").slideToggle(-300);
+            });
+
+        });
+        $(document).on("click", function(event){
+            var $trigger = $(".dropdown");
+            if($trigger !== event.target && !$trigger.has(event.target).length){
+                $(".dropdown-menu").slideUp(-300);
+            }
+        });
+
+        $(document).ready(function () {
+             $('#top2').click(function () {
+                $(this).hide();
+                $("#search_entry").show();
+                $("#iconsrch").show();
+                $("#iconclose").show();
+             });
+             $('#iconclose').click(function () {
+                 $(this).hide();
+                 $("#search_entry").hide();
+                 $("#iconsrch").hide();
+                 $("#top2").show();
+             });
+
+             $('#iconsrch').click(function () {
+                 window.location.href = '/Find/Find?city=' + document.getElementById('search_entry').value;
+             });
+             $('#search_entry').keypress(function (e) {
+                 if (e.which == 13) {//Enter key pressed
+                     $('#iconsrch').click();//Trigger search button click event
+                 }
+             });
+             $(function () {
+                 $('#top1').change(function () {
+                     $('#top1').toggle($(this).is(':checked'));
+                 });
+             });
+        });
+    </script>
+</head>
+<body>
+    <header>
+        <div class="firstheader" style="background-color: #353432;">
+            &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+            &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+            &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp &nbsp&nbsp&nbsp&nbsp&nbsp
+            &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp &nbsp&nbsp&nbsp&nbsp&nbsp
+            &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+            &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp &nbsp&nbsp&nbsp&nbsp&nbsp
+            &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp &nbsp&nbsp&nbsp&nbsp&nbsp
+            &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+
+            <span class="topheader">
+                <span>
+                    <label id="top2"><i class="fa fa-search"></i>&nbsp; Weather in your city</label>
+                    <span id="tfheadsearch" method="get" action="@Url.Action("Find", "Find")">
+                        <input id="search_entry" style="display:none;" placeholder="Search" /><i id="iconsrch" style="display:none;" class='fa fa-search' aria-hidden='true'></i><i id="iconclose" style="display:none;" class="fa fa-times" aria-hidden="true"></i>
+                    </span>
+                </span>
+
+                @*to change the signin into username*@
+
+                @if (Session["LoggedEmail"] != null)
+                {
+                    <span>
+                        <a href="@Url.Action("MyHome","SignInCon")">
+                            <i class="fa fa-arrow-circle-o-down"></i>
+                            Hello @Session["LoggedUsername"].ToString()
+                        </a>
+                    </span>
+                }
+                else
+                {
+                    <a id="top1" href="@Url.Action("SignIn", "SignInCon")"><i class="fa fa-sign-in"></i> Sign In</a>
+                }
+                @if (Session["LoggedEmail"] != null)
+                {
+                    <span style="display: none;">
+                        <a href="@Url.Action("MyHome","SignInCon")"><i class="fa fa-arrow-circle-o-down"></i> Sign Up</a>
+                    </span>
+                }
+                else
+                {
+                    <a id="top1" href="@Url.Action("Create", "registers")"><i class="fa fa-arrow-circle-o-down"></i> Sign Up</a>
+                }
+
+            </span>
+
+            <div class="switch">
+                <input type="radio" class="switch-input" name="temp_unit" value="celcius" id="celcius" checked>
+                <label for="celcius" class="switch-label switch-label-off"> &deg; C</label>
+
+                <input type="radio" class=" switch-input" name="temp_unit" value="farenheit" id="farenheit">
+                <label for="farenheit" class="switch-label switch-label-on">&deg;F</label>
+
+                <span class="switch-selection"></span>
+            </div>
+        </div>
+        <div>
+            <nav id="nav_bar">
+                <a href="@Url.Action("Home", "Home")"> <img href="@Url.Action("Home", "Home")" src="@Url.Content("~/Content/")Sysweather.png" alt="Open Weather Map"></a>
+                <ul>
+                    &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                    &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                    &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                    &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                    &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                    &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+
+                    @*<li><a href="@Url.Action("Home", "Home")">Home</a></li>*@
+                    <li><a href="@Url.Action("Indexmain", "Home")">Weather</a></li>
+                    <li><a href="@Url.Action("Contactus", "Home")">Contact Us</a></li>
+
+                    <li class="dropdown">
+                        <a href="#">About Us <i class="fa fa-caret-down"></i></a>
+                        <ul class="dropdown-menu">
+                            <li id="explicit_" style="border-top: 1px solid #353432;">
+                                <a href="http://www.sysfore.com/about-us.aspx">About Us</a>
+                            </li>
+                            <li><a href="http://www.sysfore.com/responsive-web-apps.aspx">Web Applications </a></li>
+                            <li><a href="http://www.sysfore.com/mobile-apps-overview.aspx">Mobile Applications</a></li>
+                            <li><a href="http://www.sysfore.com/openbravo-center-of-excellence.aspx">OpenBravo</a></li>
+                            <li><a href="http://www.sysfore.com/partner-with-us.aspx">Our Partners</a></li>
+
+                        </ul>
+                    </li>
+
+
+                </ul>
+            </nav>
+        </div>
+    </header>
+    @RenderBody()
+
+    <footer class="container">
+        @*<img src="@Url.Content("~/Content/")foot1.png" alt="Open Weather Map" padding="0" spacing="0" style="float:left;margin:0;padding:0;width:100%">*@
+        <div class="footer_list">
+            <ul>
+                <li><h2>Weather in your city<hr width="65%;"></h2></li>
+                <ul class="sub_footer_list">
+                    <li><a href="@Url.Action("Find", "Find")">Search your city</a></li>
+                    <li><a href="@Url.Action("Index", "Home")">Weather</a></li>
+                </ul>
+                @*<li><h2>Weather APIs<hr width="44%;"></h2></li>
+                    <ul class="sub_footer_list">
+                        <li><a href="#">How to start</a></li>
+                        <li><a href="#">Weather APIs for developers</a></li>
+                        <li><a href="#">Current weather</a></li>
+                        <li><a href="#">5 day / 3 hour weather forecast</a></li>
+                        <li><a href="#">16 day / daily weather forecast</a></li>
+                        <li><a href="#">Hourly historical data</a></li>
+                        <li><a href="#">Data from weather stations</a></li>
+                        <li><a href="#">Examples of API use</a></li>
+                    </ul>*@
+            </ul>
+        </div>
+        <div class="footer_list">
+            <ul>
+                <li><h2>About Us<hr width="36%;"></h2></li>
+                <ul class="sub_footer_list">
+                    <li><a href="http://www.sysfore.com/news-and-events.aspx">News and Events</a></li>
+                    <li><a href="http://www.sysfore.com/careers.aspx">Careers</a></li>
+                    <li><a href="http://www.sysfore.com/partner-with-us.aspx">Our Partners</a></li>
+                </ul>
+            </ul>
+        </div>
+        <div class="footer_list">
+            <ul>
+                <li><h2>Go Social<hr width="33%;"></h2></li>
+                <li class="social"><span>Stay in touch with us:</span></li>
+                <li>
+                    <span>
+                        <a id="twitter" href="https://twitter.com/"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+                        <a id="facebook" href="https://www.facebook.com/"><i class=" fa fa-facebook" aria-hidden="true"></i></a>
+                        <a id="github" href="https://github.com/"><i class="fa fa-github" aria-hidden="true"></i></a>
+                    </span>
+                </li>
+            </ul>
+        </div>
+
+        <center>
+            <div class="copyright">
+                © 2004 - 2016 Sysfore Technologies Pvt. Ltd.  All Rights Reserved <a href="http://www.sysfore.com/about-us.aspx">About company</a> | <a href="http://www.sysfore.com/privacy-policy.aspx">Privacy Policy</a> | <a href="http://www.sysfore.com/sitemap.aspx">Site Map</a>
+            </div>
+        </center>
+    </footer>
+    <a href="#" class="back-to-top" style="display: inline;"><i class="fa fa-angle-up"></i></a>
+</body>
+</html>

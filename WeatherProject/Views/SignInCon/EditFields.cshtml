@@ -1,0 +1,118 @@
+﻿@model WeatherProject.Models.DB.register
+@*@model IEnumerable<WeatherProject.Models.DB.register>*@
+
+@{
+    ViewBag.Title = "EditFields";
+    Layout = "~/Views/Shared/Layout.cshtml";
+}
+<link href="~/Content/SignInCss.css" rel="stylesheet" />
+<script src="~/Scripts/SignInJS.js"></script>
+<script>
+    function save(e) {
+        if (document.getElementById('usr').value != "" && document.getElementById('ph').value != "" && document.getElementById('add1').value != "" && document.getElementById('add2').value != "" && document.getElementById('city').value != "" && document.getElementById('state').value != "" && document.getElementById('country').value != "" && document.getElementById('zip').value != "") {
+            alert("Data Updated");
+            e.preventDefault();
+            document.getElementById('submit_button').disabled = false;
+        } else {
+            alert("please fill the data first");
+        }
+    }
+</script>
+<div class="headertwo">
+    <span id="h_one">Edit</span>
+    <span id="h_two">
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="/SignInCon/MyHome" style="text-decoration:none; color:#505050;">Home</a>
+    </span>
+</div>
+
+<div style="margin-left:13.5%;">
+
+    <span style="float:left;margin-left:13.5%;width:40%">
+        <a href="@Url.Action("Index","ChangePassword")"><input id="create_button" type="submit" style="background-color:#F0F0F0;color:black;" value="User Settings"></a>
+        <a href="@Url.Action("EditFields","SignInCon")"><input id="create_button" type="submit" value="Edit"></a>
+        <a href="@Url.Action("Favorites","Find")"><input id="create_button" type="submit" style="background-color:#F0F0F0;color:black;" value="Favourites"></a>
+    </span>
+    <span style="float:right;margin-right:13%;">
+        <a href="@Url.Action("LogOut","SignInCon")"><input id="create_button" type="submit" value="Logout"></a>
+    </span>
+</div>
+<div class="headertwo"><br /><br /><br /></div>
+@if (Session["LoggedEmail"] != null)
+{
+    <div class="signInContent">
+        <form role="form" method="post" action="/SignInCon/EditFields/">
+
+            <div class="form-group">
+                Email
+                <div class="col-md-10">
+                    <input readonly="readonly" style="background-color:#EEEEEE; cursor: no-drop;"  value="@Session["LoggedEmail"].ToString()" />
+                </div>
+            </div>
+            <div class="form-group">
+                Username
+                <div class="col-md-10">
+                    <input readonly="readonly" style="background-color:#EEEEEE; cursor: no-drop;" value="@Session["LoggedUsername"].ToString()" />
+                </div>
+            </div>
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.Email)
+            @Html.HiddenFor(model => model.UserName)
+
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Phone, htmlAttributes: new { @class = "label-control" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.Phone, new { required = "required", maxlength = "10" })
+                    @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Address1, htmlAttributes: new { @class = "label-control" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.Address1, new { required = "required" })
+                    @Html.ValidationMessageFor(model => model.Address1, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Address2, htmlAttributes: new { @class = "label-control" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.Address2, new { required = "required" })
+                    @Html.ValidationMessageFor(model => model.Address2, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.City, htmlAttributes: new { @class = "label-control" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.City, new { required = "required" })
+                    @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.State, htmlAttributes: new { @class = "label-control" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.State, new { required = "required" })
+                    @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Country, htmlAttributes: new { @class = "label-control" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.Country, new { required = "required" })
+                    @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Zipcode, htmlAttributes: new { @class = "label-control" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model => model.Zipcode, new { required = "required", maxlength = "6" })
+                    @Html.ValidationMessageFor(model => model.Zipcode, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <button id="submit_button" type="submit" onclick="save()">Save</button>
+        </form>
+    </div>
+
+}
